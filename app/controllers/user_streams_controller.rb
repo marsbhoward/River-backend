@@ -10,7 +10,7 @@ class UserStreamsController < ApplicationController
   end
 
   def destroy
-  	user_stream = (user_params[:user_id],stream_params[:stream_id])
+  	user_stream = UserStream.find(user_params[:user_id], stream_params[:stream_id])
   	user_stream.destroy
   end
 
