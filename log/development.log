@@ -4773,3 +4773,174 @@ Processing by StreamsController#index as HTML
 Completed 200 OK in 59ms (Views: 4.8ms | ActiveRecord: 24.2ms | Allocations: 5838)
 
 
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE DATABASE "river_backend" ENCODING = 'unicode'[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE DATABASE "riverbackend_test" ENCODING = 'unicode'[0m
+  [1m[35m (7.8ms)[0m  [1m[34mSELECT pg_try_advisory_lock(56598770904671310)[0m
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (7.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(56598770904671310)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (40.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "river_backend"[0m
+  [1m[35m (29.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "riverbackend_test"[0m
+  [1m[35m (120.8ms)[0m  [1m[35mCREATE DATABASE "river_backend" ENCODING = 'unicode'[0m
+  [1m[35m (50.7ms)[0m  [1m[35mCREATE DATABASE "riverbackend_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "movies" CASCADE[0m
+  [1m[35m (4.8ms)[0m  [1m[35mCREATE TABLE "movies" ("id" bigserial primary key, "title" character varying, "stream_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE  INDEX  "index_movies_on_stream_id" ON "movies"  ("stream_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "scrapers" CASCADE[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "scrapers" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "streams" CASCADE[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE TABLE "streams" ("id" bigserial primary key, "name" character varying, "url" character varying)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_streams" CASCADE[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "user_streams" ("id" bigserial primary key, "user_id" bigint NOT NULL, "streams_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_user_streams_on_streams_id" ON "user_streams"  ("streams_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_user_streams_on_user_id" ON "user_streams"  ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.6ms)[0m  [1m[35mALTER TABLE "movies" ADD CONSTRAINT "fk_rails_5c64d8c838"
+FOREIGN KEY ("stream_id")
+  REFERENCES "streams" ("id")
+[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "user_streams" ADD CONSTRAINT "fk_rails_fe0dc1e064"
+FOREIGN KEY ("streams_id")
+  REFERENCES "streams" ("id")
+[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "user_streams" ADD CONSTRAINT "fk_rails_0199176550"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200224173539)[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200224171636),
+(20200224171922),
+(20200224172438),
+(20200224173122);
+
+[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-04-11 20:48:45.723244"], ["updated_at", "2020-04-11 20:48:45.723244"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "34d0280168d17a87d3e90fcc3b14b1d91688dd78"], ["created_at", "2020-04-11 20:48:45.733398"], ["updated_at", "2020-04-11 20:48:45.733398"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "movies" CASCADE[0m
+  [1m[35m (6.1ms)[0m  [1m[35mCREATE TABLE "movies" ("id" bigserial primary key, "title" character varying, "stream_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_movies_on_stream_id" ON "movies"  ("stream_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "scrapers" CASCADE[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "scrapers" ("id" bigserial primary key, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "streams" CASCADE[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "streams" ("id" bigserial primary key, "name" character varying, "url" character varying)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "user_streams" CASCADE[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "user_streams" ("id" bigserial primary key, "user_id" bigint NOT NULL, "streams_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_user_streams_on_streams_id" ON "user_streams"  ("streams_id")[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE  INDEX  "index_user_streams_on_user_id" ON "user_streams"  ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mALTER TABLE "movies" ADD CONSTRAINT "fk_rails_5c64d8c838"
+FOREIGN KEY ("stream_id")
+  REFERENCES "streams" ("id")
+[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "user_streams" ADD CONSTRAINT "fk_rails_fe0dc1e064"
+FOREIGN KEY ("streams_id")
+  REFERENCES "streams" ("id")
+[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "user_streams" ADD CONSTRAINT "fk_rails_0199176550"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200224173539)[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200224171636),
+(20200224171922),
+(20200224172438),
+(20200224173122);
+
+[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-04-11 20:48:45.819361"], ["updated_at", "2020-04-11 20:48:45.819361"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Update (1.0ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2020-04-11 20:48:45.823991"], ["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "34d0280168d17a87d3e90fcc3b14b1d91688dd78"], ["created_at", "2020-04-11 20:48:45.828921"], ["updated_at", "2020-04-11 20:48:45.828921"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.6ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "netflix"], ["url", "http://collider.com/best-movies-on-netflix-streaming/"]]
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "hulu"], ["url", "http://collider.com/best-movies-on-hulu-streaming"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "amazon"], ["url", "https://collider.com/best-movies-on-amazon-prime/"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "hbo"], ["url", "https://collider.com/best-movies-on-hbo/"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "disney"], ["url", "https://collider.com/best-movies-on-disney-plus/"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "showtime"], ["url", "https://collider.com/best-movies-on-showtime/"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "starz"], ["url", "https://reelgood.com/movies/source/starz?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "cinimax"], ["url", "https://reelgood.com/movies/source/cinemax?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "dc"], ["url", "https://reelgood.com/movies/source/dc_universe?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "apple"], ["url", "https://reelgood.com/movies/source/apple_tv_plus?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "epix"], ["url", "https://reelgood.com/movies/source/epix?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "cbs"], ["url", "https://reelgood.com/movies/source/cbs_all_access?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "tbs"], ["url", "https://reelgood.com/movies/source/tbs?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "tnt"], ["url", "https://reelgood.com/movies/source/tnt?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "shudder"], ["url", "https://reelgood.com/movies/source/shudder?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "amc"], ["url", "https://reelgood.com/movies/source/amc?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "fx"], ["url", "https://reelgood.com/movies/source/fx?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "syfy"], ["url", "https://reelgood.com/movies/source/syfy?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mStream Create (0.2ms)[0m  [1m[32mINSERT INTO "streams" ("name", "url") VALUES ($1, $2) RETURNING "id"[0m  [["name", "ifc"], ["url", "https://reelgood.com/movies/source/ifc?filter-sort=1"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mStream Load (0.4ms)[0m  [1m[34mSELECT "streams".* FROM "streams" ORDER BY "streams"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
